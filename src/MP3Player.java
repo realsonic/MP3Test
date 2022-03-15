@@ -4,6 +4,7 @@ import javax.swing.*;
 import javax.swing.filechooser.FileFilter;
 import java.io.File;
 import java.io.FileInputStream;
+import java.nio.file.Paths;
 import java.util.Date;
 import java.util.function.Consumer;
 
@@ -46,7 +47,7 @@ public class MP3Player {
         });
         playButton.addActionListener(e -> {
             PlayerThread playerThread = new PlayerThread(fileNameText.getText(), (PlayerThread thread) -> {
-                JOptionPane.showMessageDialog(mainPanel, String.format("%s закончился!", thread.getFilePath()), "Всё", JOptionPane.INFORMATION_MESSAGE);
+                JOptionPane.showMessageDialog(mainPanel, String.format("%s закончил играть", Paths.get(thread.getFilePath()).getFileName()), "Всё", JOptionPane.INFORMATION_MESSAGE);
                 listModel.removeElement(thread);
             });
             listModel.addElement(playerThread);
@@ -77,7 +78,7 @@ public class MP3Player {
 
         @Override
         public String toString() {
-            return String.format("В %HH:MM запущен %s", created, filePath);
+            return String.format("В %tT запущен %s", created, Paths.get(filePath).getFileName());
         }
 
         @Override
